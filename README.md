@@ -1,12 +1,31 @@
-(base) [bigdata@localhost Desktop]$ sudo yum install newt
-(base) [bigdata@localhost Desktop]$ sudo apt install whiptail
-(base) [bigdata@localhost Desktop]$ nano hdfs_gui.sh
--
--
--
--
 
-(bash script file)
+# HDFS Command-Line GUI with Whiptail
+
+This is a simple shell script tool that provides a graphical menu interface (using `whiptail`) to execute basic HDFS (Hadoop Distributed File System) commands. It helps users interact with the HDFS system through a user-friendly interface instead of remembering long terminal commands.
+
+---
+
+```bash
+# For RHEL/CentOS systems:
+sudo yum install newt
+
+# For Ubuntu/Debian systems:
+sudo apt install whiptail
+```
+
+---
+
+## Script Setup
+
+Create the script file:
+
+```bash
+nano hdfs_gui.sh
+```
+
+We Pasted the following code into `hdfs_gui.sh`:
+
+```bash
 #!/bin/bash
 
 # Show a menu using whiptail with new options
@@ -24,37 +43,25 @@ CHOICE=$(whiptail --title "HDFS Command Menu" \
 # Check if user pressed OK or Cancel
 if [ $? -eq 0 ]; then
     case $CHOICE in
-
         1)
- # List files in root HDFS directory
             OUTPUT=$(hdfs dfs -ls / 2>&1)
             ;;
-
         2)
-            # List files in a specified HDFS directory
-            DIR=$(whiptail --inputbox "Enter the HDFS directory path:" 10 60 "/$
+            DIR=$(whiptail --inputbox "Enter the HDFS directory path:" 10 60 "/" 3>&1 1>&2 2>&3)
             OUTPUT=$(hdfs dfs -ls "$DIR" 2>&1)
             ;;
-
         3)
-            # Upload a file to HDFS
-            LOCAL_FILE=$(whiptail --inputbox "Enter the local file path:" 10 60$
-            HDFS_PATH=$(whiptail --inputbox "Enter the HDFS destination path:" $
+            LOCAL_FILE=$(whiptail --inputbox "Enter the local file path:" 10 60 "" 3>&1 1>&2 2>&3)
+            HDFS_PATH=$(whiptail --inputbox "Enter the HDFS destination path:" 10 60 "/" 3>&1 1>&2 2>&3)
             OUTPUT=$(hdfs dfs -put "$LOCAL_FILE" "$HDFS_PATH" 2>&1)
             ;;
-
         4)
-            # Download a file from HDFS
-            HDFS_FILE=$(whiptail --inputbox "Enter the HDFS file path:" 10 60 "$
-            LOCAL_PATH=$(whiptail --inputbox "Enter the local path to save the $
+            HDFS_FILE=$(whiptail --inputbox "Enter the HDFS file path:" 10 60 "/" 3>&1 1>&2 2>&3)
+            LOCAL_PATH=$(whiptail --inputbox "Enter the local path to save the file:" 10 60 "." 3>&1 1>&2 2>&3)
             OUTPUT=$(hdfs dfs -get "$HDFS_FILE" "$LOCAL_PATH" 2>&1)
             ;;
-
         5)
-            #Create a directory in HDFS
-            DIR_PATH=$(whiptail --inputbox "Enter the HDFS directory path to cr$
-
-            # Check if the parent directory exists
+            DIR_PATH=$(whiptail --inputbox "Enter the HDFS directory path to create:" 10 60 "/" 3>&1 1>&2 2>&3)
             PARENT_DIR=$(dirname "$DIR_PATH")
             if ! hdfs dfs -test -d "$PARENT_DIR"; then
                 OUTPUT="Error: Parent directory $PARENT_DIR does not exist."
@@ -62,41 +69,35 @@ if [ $? -eq 0 ]; then
                 OUTPUT=$(hdfs dfs -mkdir "$DIR_PATH" 2>&1)
             fi
             ;;
-
         6)
-            # Remove a file from HDFS
-            FILE_PATH=$(whiptail --inputbox "Enter the HDFS file path to remove$
+            FILE_PATH=$(whiptail --inputbox "Enter the HDFS file path to remove:" 10 60 "/" 3>&1 1>&2 2>&3)
             OUTPUT=$(hdfs dfs -rm "$FILE_PATH" 2>&1)
             ;;
-
         7)
-            # Exit script
             exit 0
             ;;
-
     esac
 
-    # Show the command output in a textbox
     echo "$OUTPUT" > /tmp/hdfs_output.txt
     whiptail --title "Command Output" --textbox /tmp/hdfs_output.txt 25 80
 
 else
     echo "You canceled the operation."
 fi
+```
 
--
--
--
--
--
+Then run:
 
+```bash
+chmod +x hdfs_gui.sh
+./hdfs_gui.sh
+```
 
-(base) [bigdata@localhost Desktop]$ chmod +x hdfs_gui.sh
-(base) [bigdata@localhost Desktop]$ ./hdfs_gui.sh
+---
 
--
--
+## Screenshots
 
+### Menu Interface
 
 ![WhatsApp Image 2025-04-19 at 11 09 13 PM](https://github.com/user-attachments/assets/db9227d5-e80f-4998-b037-652a8eff5326)
 
@@ -104,6 +105,13 @@ fi
 
 ![WhatsApp Image 2025-04-19 at 11 09 13 PM (1)](https://github.com/user-attachments/assets/b9ebf7e6-e2a3-46ca-9b54-585e450d3526)
 
+---
 
+## Features
 
+- List HDFS files/directories
+- Upload/download files
+- Create/remove directories
+- Error handling and validation
+- Simple, interactive UI
 
