@@ -9,8 +9,7 @@ This is a simple shell script tool that provides a graphical menu interface (usi
 # For RHEL/CentOS systems:
 sudo yum install newt
 
-# For Ubuntu/Debian systems:
-sudo apt install whiptail
+sudo yum install whiptail
 ```
 
 ---
