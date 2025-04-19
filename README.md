@@ -15,7 +15,7 @@ sudo apt install whiptail
 
 ---
 
-## Script Setup
+## First
 
 Create the script file:
 
@@ -23,7 +23,7 @@ Create the script file:
 nano hdfs_gui.sh
 ```
 
-We Pasted the following code into `hdfs_gui.sh`:
+Then We Pasted the following code into `hdfs_gui.sh`:
 
 ```bash
 #!/bin/bash
@@ -86,7 +86,7 @@ else
 fi
 ```
 
-Then run:
+Then run it by:
 
 ```bash
 chmod +x hdfs_gui.sh
@@ -107,11 +107,4 @@ chmod +x hdfs_gui.sh
 
 ---
 
-## Features
-
-- List HDFS files/directories
-- Upload/download files
-- Create/remove directories
-- Error handling and validation
-- Simple, interactive UI
 
