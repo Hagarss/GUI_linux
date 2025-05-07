@@ -1,4 +1,4 @@
-
+github link for the project https://github.com/Hagarss/GUI_linux/edit/main/README.md
 # HDFS Command-Line GUI with Whiptail
 
 This is a simple shell script tool that provides a graphical menu interface (using `whiptail`) to execute basic HDFS (Hadoop Distributed File System) commands. It helps users interact with the HDFS system through a user-friendly interface instead of remembering long terminal commands.
